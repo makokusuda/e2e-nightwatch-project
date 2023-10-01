@@ -3,3 +3,5 @@ node_modules
 .idea/
 logs/
 tests_output/
+allure-report
+allure-results
