@@ -1,3 +1,4 @@
+const allureReporter = require("nightwatch-allure");
 // Refer to the online docs for more details:
 // https://nightwatchjs.org/gettingstarted/configuration/
 //
@@ -14,7 +15,7 @@
 module.exports = {
   // An array of folders (excluding subfolders) where your tests are located;
   // if this is not specified, the test source must be passed as the second argument to the test runner.
-  src_folders: ['test','nightwatch'],
+  src_folders: ["test", "nightwatch"],
 
   // See https://nightwatchjs.org/guide/concepts/page-object-model.html
   page_objects_path: [],
@@ -27,47 +28,50 @@ module.exports = {
 
   // See https://nightwatchjs.org/guide/extending-nightwatch/adding-plugins.html
   plugins: [],
-  
+
   // See https://nightwatchjs.org/guide/concepts/test-globals.html
-  globals_path: '',
-  
+  globals_path: "",
+
   webdriver: {},
 
   test_workers: {
-    enabled: true
+    enabled: true,
   },
 
   globals: {
-    myGlobalVar : "some value",
-    otherGlobal : "some other value"
+    myGlobalVar: "some value",
+    otherGlobal: "some other value",
+    reporter: (results, done) => {
+      const reporter = new allureReporter.NightwatchAllureReporter({});
+      reporter.write(results, done);
+    },
   },
 
   test_settings: {
     default: {
       disable_error_log: false,
-      launch_url: 'http://localhost:5173/',
+      launch_url: "http://localhost:5173/",
 
       screenshots: {
         enabled: false,
-        path: 'screens',
-        on_failure: true
+        path: "screens",
+        on_failure: true,
       },
 
       desiredCapabilities: {
-        browserName: 'chrome'
+        browserName: "chrome",
       },
-      
+
       webdriver: {
         start_process: true,
-        server_path: ''
+        server_path: "",
       },
-      
     },
-    
+
     chrome: {
       desiredCapabilities: {
-        browserName: 'chrome',
-        'goog:chromeOptions': {
+        browserName: "chrome",
+        "goog:chromeOptions": {
           // More info on Chromedriver: https://sites.google.com/a/chromium.org/chromedriver/
           //
           // w3c:false tells Chromedriver to run using the legacy JSONWire protocol (not required in Chrome 78)
@@ -77,43 +81,41 @@ module.exports = {
             //'--ignore-certificate-errors',
             //'--allow-insecure-localhost',
             //'--headless'
-          ]
-        }
+          ],
+        },
       },
 
       webdriver: {
         start_process: true,
-        server_path: './lib/chromedriver',
+        server_path: "./lib/chromedriver",
         cli_args: [
           // --verbose
-        ]
-      }
+        ],
+      },
     },
     selenium: {
       // Selenium Server is running locally and is managed by Nightwatch
       selenium: {
         start_process: true,
         port: 4444,
-        server_path: require('selenium-server').path,
+        server_path: require("selenium-server").path,
         cli_args: {
-          'webdriver.chrome.driver': require('chromedriver').path,
-        }
+          "webdriver.chrome.driver": require("chromedriver").path,
+        },
       },
       webdriver: {
-        start_process: false
-      }
+        start_process: false,
+      },
     },
 
-    'selenium.chrome': {
-      extends: 'selenium',
+    "selenium.chrome": {
+      extends: "selenium",
       desiredCapabilities: {
-        browserName: 'chrome',
+        browserName: "chrome",
         chromeOptions: {
-          w3c: false
-        }
-      }
+          w3c: false,
+        },
+      },
     },
-    
   },
-  
 };
