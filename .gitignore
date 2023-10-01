@@ -1,0 +1,5 @@
+lib/chromedriver
+node_modules
+.idea/
+logs/
+tests_output/
